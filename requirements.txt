@@ -1,0 +1,6 @@
+%Requirements
+curl                      7.49.0
+matplotlib                1.5.1
+numpy                     1.10.4
+pycurl                    7.43.0
+python                    2.7.11
