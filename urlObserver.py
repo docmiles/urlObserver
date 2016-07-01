@@ -51,11 +51,11 @@ class urlObserver(object):
             
     """Network functions"""
     def _login(self, verbose = False):
-        
+        print "\nAttempting login to ", self.url_ROOT
         #set values to prepare for login attempt
         try:
             # A string with the name and path of an appropriate file
-            cookie_file_name = "cookies.txt"
+            cookie_file_name = self.cookie_file
             
             #set pycurl options
             self.c.setopt(pycurl.FOLLOWLOCATION, 1)
@@ -80,7 +80,7 @@ class urlObserver(object):
                     for i in range(len(cookieArray)):
                         if cookieArray[i] == 'csrftoken':
                             self.csrfToken = cookieArray[i+1]
-                            print "Found authentication token : " + str(self.csrfToken)
+                            print "..Found authentication token : " + str(self.csrfToken)
 
                 #return if no csrfToken is found
                 if self.csrfToken is None:
@@ -103,7 +103,7 @@ class urlObserver(object):
                 self.c.setopt(pycurl.COOKIE, "_next_=root")
                 self.c.setopt(pycurl.URL,self.url_ROOT)
                 self.c.perform()
-            
+                print "\n..Logged in"
             #catch errors and output to user
             except pycurl.error, error:
                 errno, errstr = error
@@ -123,8 +123,8 @@ class urlObserver(object):
         if self._login():
             
             #stdout welcome prompt to user following login
-            print "\nProbing network\nPress Crtl + C to exit and review data\n"
-            print "Samples\t |Last RTT (s)\t |Last GoodPut (bit/s)"
+            print "\n..Probing network\nPress Crtl + C to exit and review data"
+            print "\nSamples\t |Last RTT (s)\t |Last GoodPut (bit/s)"
             
             i = 0
             while True:
